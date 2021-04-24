@@ -1,5 +1,7 @@
 import random as rnd
 import datetime
+
+
 class profile:
 	def __init__(self):
 		self.balance = rnd.choice(range(50,500,30))
@@ -66,13 +68,16 @@ class receipt:
 	def __str__(self):
 		return f"Чек на {self.date}"
 names = ["Monster Energy","Молоко","Хлеб","Компьютер","Чипсы","Сметана",
-		 "Батон","Шоколад","Лимонад","Огурец","Морковь","Банан","Яблоко","Апельсин"]
+		 "Батон","Шоколад","Лимонад","Огурец","Морковь","Банан","Яблоко","Апельсин"
+		 ,"Динамик","Букет цветов","Капуста","Ананас","Диск Filosofem","Футболка",
+		 "Штаны","Трусы","Носки","Смартфон","Сигареты","Пиво","Корм для собак","Бутылка воды","Сыр"
+		 ]
 goods = []
 prof = profile()
 
 
 
-for _ in range(rnd.randint(1,5)):
+for _ in range(rnd.randint(15,50)):
 	new_good = good(rnd.choice(names),rnd.choice(range(1,200,rnd.randint(10,20))))
 	goods.append(new_good)
 

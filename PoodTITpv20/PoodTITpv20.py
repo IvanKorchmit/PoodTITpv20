@@ -43,7 +43,7 @@ while True:
 		open("inv.pickle")
 		ans = input("Мы нашли файл с инвентарем. Не хотите ли вы его загрузить? y/n ")
 		if ans == "y":
-			vr.prof.inventory = pickle.load(open("inv.pickle", "rb", -1))
+			vr.prof.inventory = pc.load(open("inv.pickle", "rb", -1))
 			break
 		elif ans == "n":
 			break
@@ -53,7 +53,7 @@ while True:
 
 while True:
 	print_help()
-	comm = input()
+	comm = input("Введите комманду ")
 	if comm == "1":
 		s = vr.sum_goods(vr.prof.basket)
 		if s == 0:
@@ -73,6 +73,7 @@ while True:
 							break
 						elif ans == "n":
 							break
+					vr.prof.basket.clear()
 					break
 				else:
 					print("У вас не хватает средств")
@@ -101,10 +102,14 @@ while True:
 		vr.prof.looking_at = "inventory"
 	elif comm == "9":
 		vr.goods.sort()
+		vr.prof.basket.sort()
+		vr.prof.inventory.sort()
 	elif comm == "10":
 		while True:
 			try:
-				n = int(input("Введите номер чека: "))
+				n = int(input("Введите номер чека (-1 - отмена): "))
+				if n < 0:
+					break
 				if type(vr.prof.inventory[n]) == vr.receipt:
 					vr.prof.inventory[n].open()
 					break
@@ -122,7 +127,7 @@ while True:
 	ans = input("Не хотите ли вы сохранить ваш инвентарь? y/n ")
 	if ans == "y":
 		with open("inv.pickle", "wb") as file_:
-			pickle.dump(vr.prof.inventory, file_, -1)
+			pc.dump(vr.prof.inventory, file_, -1)
 			break
 	elif ans == "n":
 		break
