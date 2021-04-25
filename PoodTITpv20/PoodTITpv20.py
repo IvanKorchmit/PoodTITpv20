@@ -1,7 +1,19 @@
 import vars_classes as vr
 import pickle as pc
-
-
+import git
+import os
+def print_art():
+	print("   _")
+	print("    \________")
+	print(" ~   \######/    ")
+	print("  ~   |####/")
+	print(" ~    |____.")
+	print("______o____o__________ ")
+	print("                      \_______")
+def print_version():
+	repo = git.Repo(search_parent_directories=True)
+	sha = repo.head.object.hexsha
+	print("Магазин версии ", sha)
 def print_help():
 	print()
 	print("======================")
@@ -40,17 +52,20 @@ def print_help():
 
 while True:
 	try:
-		open("inv.pickle")
-		ans = input("Мы нашли файл с инвентарем. Не хотите ли вы его загрузить? y/n ")
-		if ans == "y":
-			vr.prof.inventory = pc.load(open("inv.pickle", "rb", -1))
-			break
-		elif ans == "n":
+		if os.path.isfile("inv.pickle"):
+			ans = input("Мы нашли файл с инвентарем. Не хотите ли вы его загрузить? y/n ")
+			if ans == "y":
+				vr.prof.inventory = pc.load(open("inv.pickle", "rb", -1))
+				break
+			elif ans == "n":
+				break
+		else:
 			break
 	except:
 		break
 
-
+print_art()
+print_version()
 while True:
 	print_help()
 	comm = input("Введите комманду ")

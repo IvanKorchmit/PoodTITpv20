@@ -1,7 +1,5 @@
 import random as rnd
 import datetime
-
-
 class profile:
 	def __init__(self):
 		self.balance = rnd.choice(range(50,500,30))
@@ -39,10 +37,16 @@ class good:
 			self.quantity = quantity
 	def __str__(self):
 		return " ".join([self.name,str(self.price)+"€",str(self.quantity)+" tk."])
-	def __eq__(self, value):
-		return self.name == value.name and self.price == value.price
+	def __eq__(self, value): 
+		if type(value) == good:
+			return self.name == value.name and self.price == value.price
+		elif type(value) == receipt:
+			return False
 	def __lt__(self, value):
-		return ord(self.name[0]) < ord(value.name[0])
+		if type(value) == good:
+			return ord(self.name[0]) < ord(value.name[0])
+		else:
+			return ord(self.name[0]) < ord(value.__str__()[0])
 
 
 
@@ -67,6 +71,11 @@ class receipt:
 		print("\n"*5)
 	def __str__(self):
 		return f"Чек на {self.date}"
+	def __lt__(self,value):
+		if type(value) == good:
+			return ord(self.__str__()[0]) < ord(value.name[0])
+		elif type(value) == receipt:
+			return ord(self.__str__()[0]) < ord(value.__str__()[0])
 names = ["Monster Energy","Молоко","Хлеб","Компьютер","Чипсы","Сметана",
 		 "Батон","Шоколад","Лимонад","Огурец","Морковь","Банан","Яблоко","Апельсин"
 		 ,"Динамик","Букет цветов","Капуста","Ананас","Диск Filosofem","Футболка",
@@ -89,11 +98,15 @@ def collapse(l : list):
 	new_l = [old_l[0]]
 	old_l.pop(0)
 	while old_l:
-		if old_l[0] in new_l:
-			new_l[new_l.index(old_l[0])].quantity += old_l[0].quantity
+		if type(old_l[0]) == good:
+			if old_l[0] in new_l:
+				new_l[new_l.index(old_l[0])].quantity += old_l[0].quantity
+			else:
+				new_l.append(old_l[0])
+			old_l.pop(0)
 		else:
 			new_l.append(old_l[0])
-		old_l.pop(0)
+			old_l.pop(0)
 
 
 	return new_l
